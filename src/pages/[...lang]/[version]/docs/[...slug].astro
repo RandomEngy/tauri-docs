@@ -9,9 +9,10 @@ export const getStaticPaths = createLocalizedPaths(async (lang) => {
 });
 
 let { entry, collection } = Astro.props;
+const { version } = Astro.params;
 const { Content, headings } = await entry.render();
-let entries = undefined;
-entries = buildSidebarObject(collection)[0]["_children"];
+let entries = buildSidebarObject(collection)[0]["_children"];
+entries = entries.find((item) => item["_slugPart"] == version)["_children"];
 // TODO: Fix title
 ---
 
