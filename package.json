@@ -11,6 +11,7 @@
     "astro": "astro",
     "i18n:sync": "astro-i18n sync:types",
     "i18n:extract:keys": "astro-i18n extract:keys",
+    "generate:api": "node .scripts/generate-api-doc.js",
     "generate:cli": "node .scripts/generate-cli-doc.cjs",
     "generate:config": "node .scripts/generate-config-doc.cjs",
     "test": "ts-node --esm src/plugins/remark-rewrite-markdown-links/test.ts"
@@ -53,6 +54,7 @@
     "@types/unist": "^2.0.6",
     "rehype-wrap-all": "^1.1.0",
     "shiki": "^0.14.2",
+    "@iarna/toml": "^2.2.5",
     "unist-util-visit": "^4.1.2"
   },
   "engines": {

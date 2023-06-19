@@ -58,6 +58,9 @@ dependencies:
     version: 0.16.1
 
 devDependencies:
+  '@iarna/toml':
+    specifier: ^2.2.5
+    version: 2.2.5
   '@tailwindcss/typography':
     specifier: ^0.5.9
     version: 0.5.9(tailwindcss@3.3.2)
@@ -734,6 +737,10 @@ packages:
   /@fontsource/rubik@5.0.0:
     resolution: {integrity: sha512-30acxgzxKjy38ndk3un+DCZspn7ckfqMD7BEJ+tUrbwKGS+bH2lnkQfrXwjlgOI6TXumc+/SZdYlY0JPqJt14Q==}
     dev: false
+
+  /@iarna/toml@2.2.5:
+    resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
+    dev: true
 
   /@iconify/json@2.2.68:
     resolution: {integrity: sha512-UNgbecms1tWhvY9ycXbWW/nOLlx5Xxlufp+dHWontty0j+yiQfap3UshpSGGAt74C9OLYEFKTl42d20PLRakzg==}

@@ -55,13 +55,37 @@ jobs:
         working-directory: ./tauri-docs
         run: git submodule update --remote
 
+      - name: Tauri version
+        id: tauri-major
+        working-directory: ./tauri-docs
+        run: node .scripts/get-tauri-version.js
+
+      - name: Checkout plugins-workspace
+        uses: actions/checkout@v3
+        with:
+          repository: tauri-apps/plugins-workspace
+          path: plugins-workspace
+          ref: v${{ steps.tauri-major.outputs.TAURI_MAJOR }}
+
       # - name: Build typedoc-plugin-markdown
       #   working-directory: ./tauri-docs/packages/typedoc-plugin-markdown/packages/typedoc-plugin-markdown
       #   run: yarn && yarn build
 
-      - name: Prep for JS doc generation
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.x.x
+
+      - name: Prep for JS doc generation (tauri)
         working-directory: ./tauri/tooling/api
         run: yarn
+
+      - name: Prep for JS doc generation (plugins)
+        working-directory: ./plugins-workspace
+        run: pnpm install
+
+      - name: Install docs dependencies
+        working-directory: ./tauri-docs
+        run: pnpm install
 
       # - name: Cleanup JS Docs
       #   run: rm -rf tauri-docs/src/content/api/en/js/1/*
@@ -83,14 +107,6 @@ jobs:
           cargo build --manifest-path ./tauri/tooling/cli/Cargo.toml
           mv ./tauri/tooling/cli/target/debug/cargo-tauri ~/.cargo/bin/cargo-tauri
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7.x.x
-
-      - name: Install dependencies
-        working-directory: ./tauri-docs
-        run: pnpm install
-
       - name: Generate cli and config docs
         working-directory: ./tauri-docs
         run: |
@@ -109,10 +125,10 @@ jobs:
         if: github.event_name != 'pull_request' && github.event_name != 'push'
         with:
           token: ${{ secrets.ORG_TAURI_BOT_PAT }}
-          commit-message: 'chore(docs): Update Rust & TS docs'
+          commit-message: 'chore(docs): Update Rust & TS docs (v${{ steps.tauri-major.outputs.TAURI_MAJOR }})'
           branch: docs/release-beta
           path: tauri-docs
-          title: Update Docs (beta)
+          title: Update v${{ steps.tauri-major.outputs.TAURI_MAJOR }} Docs (beta)
           labels: 'new release'
           body: |
             These are the updated docs from the most recent release.
