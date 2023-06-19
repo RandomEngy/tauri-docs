@@ -55,6 +55,14 @@ jobs:
         working-directory: ./tauri-docs
         run: git submodule update --remote
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.x.x
+
+      - name: Install docs dependencies
+        working-directory: ./tauri-docs
+        run: pnpm install
+
       - name: Tauri version
         id: tauri-major
         working-directory: ./tauri-docs
@@ -71,20 +79,12 @@ jobs:
       #   working-directory: ./tauri-docs/packages/typedoc-plugin-markdown/packages/typedoc-plugin-markdown
       #   run: yarn && yarn build
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7.x.x
-
       - name: Prep for JS doc generation (tauri)
         working-directory: ./tauri/tooling/api
         run: yarn
 
       - name: Prep for JS doc generation (plugins)
         working-directory: ./plugins-workspace
-        run: pnpm install
-
-      - name: Install docs dependencies
-        working-directory: ./tauri-docs
         run: pnpm install
 
       # - name: Cleanup JS Docs
