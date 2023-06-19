@@ -8,11 +8,27 @@ interface Props {
 }
 
 const { name } = Astro.props
+
+function insertDashDashBeforeOption(name: string) {
+  let idx = name.indexOf('--') // Without a space in front to catch `--version`
+  if (idx === -1) {
+    idx = name.indexOf(' -') + 1 // Checking single dash with space to not trigger on `app-name`
+
+    if (idx === 0) {
+      return name
+    }
+  }
+  return name.slice(0, idx) + '-- ' + name.slice(idx)
+}
 ---
 
 <Tabs tabTitles={['npm', 'Yarn', 'pnpm', 'Cargo']}>
   <div slot="npm">
-    <Code code={`npm run tauri ${name}`} lang="console" theme={codeTheme} />
+    <Code
+      code={`npm run tauri ${insertDashDashBeforeOption(name)}`}
+      lang="console"
+      theme={codeTheme}
+    />
   </div>
   <div slot="Yarn">
     <Code code={`yarn tauri ${name}`} lang="console" theme={codeTheme} />
